@@ -55,8 +55,10 @@
   </form>
   <hr/>
   <% } %>
-  <h4><b>All Reviews</b></h4>
+</br>
+  <% if(listing.reviews.length > 0) { %>
   <div class="row">
+  <h4><b>All Reviews</b></h4>
  <% for(review of listing.reviews) { %> 
   <div class="card col-5 ms-3 mb-3">
     <div class="card-body">
@@ -69,6 +71,20 @@
     </form>
   </div>
 <% } %>
+<% } %>
+<div class=" mb-3">
+  <h3>Where you will be</h3>
+<div id="map" style="width: 80vh; height: 400px"></div>
 </div>
+</div>
+<script>
+  const map = new maplibregl.Map({
+    style: 'https://tiles.openfreemap.org/styles/liberty',
+    center: [13.388, 52.517],
+    zoom: 9.5,
+    container: 'map',
+  })
+</script>
+
 </div>
 </div>

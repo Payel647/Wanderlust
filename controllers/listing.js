@@ -13,7 +13,7 @@ module.exports.showListing= async (req, res) => {
     req.flash("error","Listing you requested for does not exist!");
     res.redirect("/listings");
   }
-  res.render("listings/show.ejs", { listing });
+  res.render("listings/show.ejs", { listing, mapboxToken: process.env.MAP_API_KEY });
 }
 module.exports.createListing=async(req, res,next) => {
   let url=req.file.path;
