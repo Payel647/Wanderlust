@@ -7,9 +7,11 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const MONGO_URL = "mongodb://127.0.0.1:27017/Payel";
+const conet=process.env.ds;
 const ejsMate=require('ejs-mate');
 const ExpressError=require("./utils/ExpressError.js");
 const session=require("express-session");
+const MongoStore = require("connect-mongo")
 const flash=require("connect-flash");
 const listingRouter=require("./routes/listing.js")
 const reviewRouter=require("./routes/review.js");
@@ -26,7 +28,7 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(conet);
 }
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -34,7 +36,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs",ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
+const store = MongoStore.create({
+  mongoUrl:conet,
+  crypto:{
+      secret: process.env.SECRET,
+  },
+  touchAfter:24 * 3600,
+})
+store.on("error", ()=>{
+  console.log("Error in Mongo Session " , err)
+})
+store.on("error", ()=>{
+  console.log("Error in Mongo Session " , err)
+})
+
 const sessionOptions={
+  store,
   secret:"mysupersecretcode",
   resave:false,
   saveUninitialized:true,
@@ -47,6 +64,7 @@ const sessionOptions={
 // app.get("/", (req, res) => {
 //   res.send("Hi, I am root");
 // });
+
 app.use(session(sessionOptions));
 app.use(flash()); 
 app.use(passport.initialize());
