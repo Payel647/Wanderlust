@@ -88,3 +88,8 @@ body{
     padding-left: 0;
     padding-right: 0;
 }
+#map{
+    height: 400px;
+    width: 65vh;
+    border-radius: 1rem;
+}

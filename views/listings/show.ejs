@@ -22,7 +22,7 @@
   </form>
 </div>
 <hr/>
-<div class="col-8 offset-3 mb-3 mt-3">
+<div class="col-8 offset-3 mt-3 mb-3">
   <% if(currUser) { %>
   <h4>Leave a Review </h4>
   <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
@@ -70,21 +70,14 @@
       <button class="btn btn-sm btn-dark">Delete</button>
     </form>
   </div>
+</div>
 <% } %>
+</div>
 <% } %>
-<div class=" mb-3">
-  <h3>Where you will be</h3>
-<div id="map" style="width: 80vh; height: 400px"></div>
+</div>
+<div class="col-8 offset-3 mb-3">
+  <h3>Where You Will Be</h3>
+  <div id="map" class="mb-3"></div>
 </div>
 </div>
-<script>
-  const map = new maplibregl.Map({
-    style: 'https://tiles.openfreemap.org/styles/liberty',
-    center: [13.388, 52.517],
-    zoom: 9.5,
-    container: 'map',
-  })
-</script>
-
-</div>
-</div>
+<script src="/js/map.js"></script>

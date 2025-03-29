@@ -20,8 +20,14 @@ module.exports.createListing=async(req, res,next) => {
   let filename=req.file.filename;
   const newListing = new Listing(req.body.listing);
   newListing.owner=req.user._id;
+  let result = await fetch(`https://api.maptiler.com/geocoding/${encodeURIComponent(req.body.listing.location)}.json?key=${process.env.MAP_TILER_KEY}`);
+  result = await result.json();
+  const location = result.features[0];
+  const ans = location.geometry.coordinates;
   newListing.image={url, filename};
-  await newListing.save();
+  newListing.geometry.coordinates=ans;
+  let savedListing=await newListing.save();
+  console.log(savedListing);
   req.flash("Success","New Listing Created!");
   res.redirect("/listings");
 };
