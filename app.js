@@ -44,9 +44,9 @@ const sessionOptions={
     maxAge:1000*60*60*24*7,
   },
 }
-app.get("/", (req, res) => {
-  res.send("Hi, I am root");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hi, I am root");
+// });
 app.use(session(sessionOptions));
 app.use(flash()); 
 app.use(passport.initialize());
