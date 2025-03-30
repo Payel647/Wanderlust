@@ -89,7 +89,7 @@ body{
     padding-right: 0;
 }
 #map{
-    height: 400px;
-    width: 65vh;
+    height: 50vh;
+    width: 35vw;
     border-radius: 1rem;
 }
