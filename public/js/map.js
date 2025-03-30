@@ -1,4 +1,4 @@
-      maptilersdk.config.apiKey = 'RM3PWgtcZuQZY3UpiQJC';
+      maptilersdk.config.apiKey =mapToken;
       const popup = new maptilersdk.Popup({ offset: 25 }).setHTML(`<h4>${listing.title}</h4><p>Exact location provided after booking !!</p>`);
       const map = new maptilersdk.Map({
         container: 'map', // container's id or the HTML element to render the map
