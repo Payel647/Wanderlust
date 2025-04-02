@@ -14,7 +14,25 @@
     padding: 0.5rem 3rem 0.5rem 3rem;
     font-size: 0.8rem;
   }
-
+  @media (max-width: 768px) {
+      .search-input {
+          width: 100%;
+      }
+  
+      .search-btn {
+          width: 100%;
+          margin-top: 0.5rem;
+      }
+  
+      .navbar-nav {
+          width: 100%;
+      }
+  
+      .navbar-nav .nav-link {
+          padding: 0.7rem;
+          width: 100%;
+      }
+  }
 </style>
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
@@ -28,8 +46,8 @@
         </div>
         <nav class="navbar bg-body-light ms-auto border-bottom">
           <div class="container-fluid">
-            <form class="d-flex" role="search">
-              <input class="form-control me-2 search-btn" type="search" placeholder="Search destinations" aria-label="Search">
+            <form class="d-flex" role="search" action="/listings/search" method="GET">
+              <input class="form-control me-2 search-btn" type="search" placeholder="Search destinations" aria-label="Search" name="query">
               <button class="btn btn-search" type="submit">Search</button>
             </form>
           </div>

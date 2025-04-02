@@ -1,5 +1,9 @@
 body{
+    background-color: pink;
    font-family: "PLus jakarta Sans",sans-serif !important;
+   font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
    display: flex;
    flex-direction: column;
    min-height:100vh;
@@ -89,7 +93,10 @@ body{
     padding-right: 0;
 }
 #map{
-    height: 50vh;
-    width: 35vw;
+    height: 400px;
+    width: 80vh;
     border-radius: 1rem;
+}
+.foot{
+    width:100vw;
 }

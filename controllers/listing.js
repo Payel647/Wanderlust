@@ -16,6 +16,7 @@ module.exports.showListing= async (req, res) => {
   res.render("listings/show.ejs", { listing, mapboxToken: process.env.MAP_API_KEY });
 }
 module.exports.createListing=async(req, res,next) => {
+  console.log(req.body);
   let url=req.file.path;
   let filename=req.file.filename;
   const newListing = new Listing(req.body.listing);
@@ -52,7 +53,7 @@ module.exports.updateListing=async (req, res) => {
   await listing.save();
   }
   req.flash("Success","Listing Updated!");
-  res.redirect(`/listings/${id}`);
+  res.redirect(`/listings/${listing._id}`);
 };
 module.exports.destroyListing=async(req, res) => {
   let { id } = req.params;
