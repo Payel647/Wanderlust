@@ -34,7 +34,6 @@
       align-items: center;
   }
 
-  /* Floating Chatbot Button */
   .chatbot-btn {
       position: fixed;
       bottom: 30px;
@@ -127,14 +126,11 @@
   <% } %>
   </div>
 </div>
-
-<!-- Floating Chatbot Button -->
 <button class="chatbot-btn" id="chatbotBtn" title="Chat with us">
   <i class="fa-solid fa-robot"></i>
 </button>
 
 <script>
-   // GST toggle
    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
    taxSwitch.addEventListener("click",()=>{
        let taxInfo = document.getElementsByClassName("tax-info");
@@ -146,8 +142,6 @@
            info.style.display = "none";
        }
    });
-
-   // Chatbot redirect
    document.getElementById("chatbotBtn").addEventListener("click", () => {
        window.location.href = "/chatbot"; 
    });

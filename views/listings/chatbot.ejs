@@ -140,8 +140,6 @@
     }
   }
 </style>
-
-<!-- Chatbot UI -->
 <div class="chat-container">
   <div class="chat-header">
     <span><i class="fa-regular fa-compass"></i></span>
@@ -191,7 +189,12 @@
       return "Hello! How can I assist you with your travel plans today?";
     }else if (text.includes("owner") || text.includes("contact") || text.includes("who to reach") || text.includes("how to reach")) {
         return "You can contact the owner directly at: mallickpayel647@gmail.com.";
-    }else {
+    }else if (text.includes("thank you") || text.includes("thanks")|| text.includes("bye")|| text.includes("See you later")) {
+        return "You’re welcome! Thanks for visiting.";
+    } else if (text.includes("how are you")) {
+        return "I’m just a bot, but I’m here to help you with listings and bookings!";
+    }
+    else {
       // fallback if bot doesn't understand
       return "I’m not sure about that. Please contact the owner for more details.";
     }
