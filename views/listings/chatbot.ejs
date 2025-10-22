@@ -1,0 +1,217 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderLust</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link href="/css/rating.css" rel="stylesheet"/>
+    <script src="https://cdn.maptiler.com/maptiler-sdk-js/v3.0.1/maptiler-sdk.umd.min.js"></script>
+    <link href="https://cdn.maptiler.com/maptiler-sdk-js/v3.0.1/maptiler-sdk.css" rel="stylesheet" />
+</head>
+<style>
+  body {
+    background-color: #f5f7fa;
+    font-family: "Inter", "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #2d2d2d;
+  }
+
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 85vh;
+    width: 100%;
+    max-width: 650px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+  .chat-header {
+    background: linear-gradient(90deg, #ffffff, #fbf7f7);
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+  }
+
+  .close-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: rgb(0, 0, 0);
+    font-size: 1.2rem;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .close-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+  }
+
+  .chat-body {
+    flex: 1;
+    padding: 1.2rem 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    scroll-behavior: smooth;
+    background-color: #fafafa;
+  }
+
+  .msg {
+    max-width: 80%;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    transition: all 0.3s ease;
+  }
+
+  .bot-msg {
+    background-color: #f3f4f6;
+    color: #333;
+    align-self: flex-start;
+  }
+
+  .user-msg {
+    background-color: #2563eb;
+    color: white;
+    align-self: flex-end;
+  }
+
+  .chat-input-area {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    border-top: 1px solid #e5e7eb;
+    background: #ffffff;
+  }
+
+  .chat-input-area input {
+    flex: 1;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border 0.2s ease;
+  }
+
+  .chat-input-area input:focus {
+    border-color: #eb2525;
+  }
+
+  .chat-input-area button {
+    background-color: #ebb325;
+    color: rgb(5, 5, 5);
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    margin-left: 0.6rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .chat-input-area button:hover {
+    background-color: #af1e1e;
+  }
+
+  @media (max-width: 768px) {
+    .chat-container {
+      height: 92vh;
+      border-radius: 0;
+    }
+    .chat-header {
+      padding: 0.9rem 1rem;
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<!-- Chatbot UI -->
+<div class="chat-container">
+  <div class="chat-header">
+    <span><i class="fa-regular fa-compass"></i></span>
+    <button class="close-btn" onclick="window.location.href='/listings'">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <div class="chat-body" id="chatBody">
+    <div class="bot-msg msg">Hi 👋 I’m your WanderLust Assistant! How can I help you today?</div>
+  </div>
+
+  <div class="chat-input-area">
+    <input type="text" id="userInput" placeholder="Ask about destinations, stays, or bookings..." />
+    <button id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<script>
+  const sendBtn = document.getElementById("sendBtn");
+  const userInput = document.getElementById("userInput");
+  const chatBody = document.getElementById("chatBody");
+
+  function addMessage(content, type) {
+    const msgDiv = document.createElement("div");
+    msgDiv.classList.add("msg", type === "user" ? "user-msg" : "bot-msg");
+    msgDiv.textContent = content;
+    chatBody.appendChild(msgDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  // Simple keyword-based chatbot logic
+  function generateReply(userText) {
+    const text = userText.toLowerCase();
+
+    if (text.includes("trending") || text.includes("cities")) {
+      return "You can explore listings in our Trending Cities section!";
+    } else if (text.includes("mountain") || text.includes("nature")) {
+      return "Looking for nature escapes? Try the Mountains category!";
+    } else if (text.includes("castle") || text.includes("room") || text.includes("farm")) {
+      return "We’ve got castles, rooms & farms — what’s your vibe?";
+    } else if (text.includes("booking") || text.includes("reserve") || text.includes("how can I book") || text.includes("how to book") || text.includes("book a listing")) {
+        return "Currently, the booking feature is not live. Please contact the owner to book your stay.";
+    }else if (text.includes("help") || text.includes("support")) {
+      return "I can answer questions about listings and bookings!";
+    }else if (text.includes("hi") || text.includes("hello") || text.includes("hey")) {
+      return "Hello! How can I assist you with your travel plans today?";
+    }else if (text.includes("owner") || text.includes("contact") || text.includes("who to reach") || text.includes("how to reach")) {
+        return "You can contact the owner directly at: mallickpayel647@gmail.com.";
+    }else {
+      // fallback if bot doesn't understand
+      return "I’m not sure about that. Please contact the owner for more details.";
+    }
+  }
+
+  sendBtn.addEventListener("click", () => {
+    const text = userInput.value.trim();
+    if (!text) return;
+
+    addMessage(text, "user");
+    userInput.value = "";
+
+    setTimeout(() => {
+      const reply = generateReply(text);
+      addMessage(reply, "bot");
+    }, 700);
+  });
+
+  userInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendBtn.click();
+  });
+</script>
+

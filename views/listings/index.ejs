@@ -1,117 +1,154 @@
-  <% layout("/layouts/boilerplates") %>
-  <style>
-    #filters{
+<% layout("/layouts/boilerplates") %>
+<style>
+  #filters{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter{
+      text-align: center;
+      margin-right: 2rem;
+      margin-top: 2rem;
+      opacity: 0.7;
+  }
+  .filter:hover{
+      opacity:1;
+      cursor: pointer;
+  }
+  
+  .filter p{
+       font-size: 0.8rem;
+  }
+  
+  .tax-info{
+      display: none;
+  }
+  
+  .tax-toggle{
+      border:0.5px solid black;
+      border-radius: 1rem;
+      height: 3.2rem;
+      padding: 0.5rem 2rem 0.5rem 2rem;
+      margin-left: 2rem;
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
-    }
-    .filter{
-        text-align: center;
-        margin-right: 2rem;
-        margin-top: 2rem;
-        opacity: 0.7;
-    }
-    .filter:hover{
-        opacity:1;
-        cursor: pointer;
-    }
-    
-    .filter p{
-         font-size: 0.8rem;
-    }
-    
-    .tax-info{
-        display: none;
-    }
-    
-    .tax-toggle{
-        border:0.5px solid black;
-        border-radius: 1rem;
-        height: 3.2rem;
-        padding: 0.5rem 2rem 0.5rem 2rem;
-        margin-left: 2rem;
+  }
+
+  /* Floating Chatbot Button */
+  .chatbot-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.3s ease;
+  }
+
+  .chatbot-btn:hover {
+      background-color: #0056b3;
+      transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+      .row {
         display: flex;
+        flex-direction: column;
         align-items: center;
-    }
-    @media (max-width: 768px) {
-        .row {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        .filter {
-          flex: 1 1 40%;
-        }
-        .tex-switch {
-          width: 100%;
-          justify-content: center;
-        }
       }
-    </style>
-    
-    <div id="filters">
-      <% const categories = [
-        { name: "Trending", icon: "fa-fire" },
-        { name: "Rooms", icon: "fa-bed" },
-        { name: "Iconic Cities", icon: "fa-mountain-city" },
-        { name: "Mountains", icon: "fa-mountain" },
-        { name: "Castles", icon: "fa-fort-awesome" },
-        { name: "Amazing Pools", icon: "fa-person-swimming" },
-        { name: "Camping", icon: "fa-campground" },
-        { name: "Farms", icon: "fa-cow" },
-        { name: "Arctic", icon: "fa-snowflake" },
-        { name: "Domes", icon: "fa-igloo" },
-        { name: "Boats" , icon: "fa-ship"}
-      ]; %>
-      
-      <% for (let category of categories) { %>
-        <div class="filter">
-          <a href="/listings/category/<%= category.name %>" style="color:black; text-decoration: none;">
-            <div><i class="fa-solid <%= category.icon %>"></i></div>
-            <p><%= category.name %></p>
-          </a>
-        </div>
-      <% } %>
+      .filter {
+        flex: 1 1 40%;
+      }
+      .tex-switch {
+        width: 100%;
+        justify-content: center;
+      }
+  }
+</style>
+
+<div id="filters">
+  <% const categories = [
+    { name: "Trending", icon: "fa-fire" },
+    { name: "Rooms", icon: "fa-bed" },
+    { name: "Iconic Cities", icon: "fa-mountain-city" },
+    { name: "Mountains", icon: "fa-mountain" },
+    { name: "Castles", icon: "fa-fort-awesome" },
+    { name: "Amazing Pools", icon: "fa-person-swimming" },
+    { name: "Camping", icon: "fa-campground" },
+    { name: "Farms", icon: "fa-cow" },
+    { name: "Arctic", icon: "fa-snowflake" },
+    { name: "Domes", icon: "fa-igloo" },
+    { name: "Boats" , icon: "fa-ship"}
+  ]; %>
+  
+  <% for (let category of categories) { %>
+    <div class="filter">
+      <a href="/listings/category/<%= category.name %>" style="color:black; text-decoration: none;">
+        <div><i class="fa-solid <%= category.icon %>"></i></div>
+        <p><%= category.name %></p>
+      </a>
     </div>
-    <div class="tex-switch">
-      <div class="form-check-reverse form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
-      </div>
-    </div>
-    <div class="row mt-3">
-    <!-- <h3 >All Listings</h3> -->
-    <!-- <form method="GET" action="/listings/new">
-      <button>Create New Listing</button>
-    </form> -->
-    <div class="row row-cols-lg-3 row-cols-mid-2 row-cols-sm-1">
-      <% for(let listing of allListings) { %>
-      <a href="/listings/<%= listing._id %>" class="listing-link">
-      <div class="card col listing-card">
-        <img src="<%= listing.image.url%>" class="card-img-top" alt="Listing_image"  style="height: 20rem"/>
-        <div class="card-img-overlay"></div>
-        <div class="card-body">
-          <p class="card-text">
-            <b><%= listing.title %> <br/></b>
-            &#8377;<%= listing.price  %>/night <i class="tax-info"><b>+18% GST</b></i>
-            <br/> <br/>
-          </p>
-        </div>
-      </div>
-    </a>
-    <% } %>
-    </div>
+  <% } %>
+</div>
+
+<div class="tex-switch">
+  <div class="form-check-reverse form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+    <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
   </div>
-  <script>
-     let taxSwitch = document.getElementById("flexSwitchCheckDefault");
-    taxSwitch.addEventListener("click",()=>{
-        let taxInfo = document.getElementsByClassName("tax-info");
-        for(info of taxInfo ){
-            if( info.style.display != "inline"){
-                info.style.display="inline";
-            }
-            else
-            info.style.display = "none";
-        }
-    });
-  </script>
+</div>
+
+<div class="row mt-3">
+  <div class="row row-cols-lg-3 row-cols-mid-2 row-cols-sm-1">
+    <% for(let listing of allListings) { %>
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+    <div class="card col listing-card">
+      <img src="<%= listing.image.url%>" class="card-img-top" alt="Listing_image"  style="height: 20rem"/>
+      <div class="card-img-overlay"></div>
+      <div class="card-body">
+        <p class="card-text">
+          <b><%= listing.title %> <br/></b>
+          &#8377;<%= listing.price  %>/night <i class="tax-info"><b>+18% GST</b></i>
+          <br/> <br/>
+        </p>
+      </div>
+    </div>
+  </a>
+  <% } %>
+  </div>
+</div>
+
+<!-- Floating Chatbot Button -->
+<button class="chatbot-btn" id="chatbotBtn" title="Chat with us">
+  <i class="fa-solid fa-robot"></i>
+</button>
+
+<script>
+   // GST toggle
+   let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+   taxSwitch.addEventListener("click",()=>{
+       let taxInfo = document.getElementsByClassName("tax-info");
+       for(info of taxInfo ){
+           if( info.style.display != "inline"){
+               info.style.display="inline";
+           }
+           else
+           info.style.display = "none";
+       }
+   });
+
+   // Chatbot redirect
+   document.getElementById("chatbotBtn").addEventListener("click", () => {
+       window.location.href = "/chatbot"; 
+   });
+</script>
