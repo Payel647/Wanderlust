@@ -28,3 +28,6 @@ Contributions are welcome! Please fork the repository and create a pull request.
 ## License
 
 This project is licensed under the MIT License.
+## Contributor
+**Made by Payel Mallick**  
+B.Tech IT | Full Stack Developer
